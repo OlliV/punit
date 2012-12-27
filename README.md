@@ -31,10 +31,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 How to implement a new test suite
 =================================
 
-1. cp -R example_prj name_of_your_project
+1. `cp -R example_prj name_of_your_project`
 2. Update Makefile in your new project directory according to instructions in
    the file
 3. Write new tests and name the test files in following manner:
-   test_<module_name>.c or even test_<module1>_<module2>.c etc.
-4. Run make. If everything went well PUnit should automatically determine and
-   build all needed source modules, build the tests and finally run the tests.
+   `test_<module_name>.c` or even `test_<module1>_<module2>.c` etc.
+4. Run `make`. If everything went well PUnit should automatically determine
+   and build all needed source modules, build the tests and finally run the
+   tests.
