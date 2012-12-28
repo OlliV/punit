@@ -32,18 +32,16 @@
 #include <stdio.h>
 #include "punit.h"
 
-int pu_tests_run = 0;
+int pu_tests_ok = 0;
+int pu_tests_count = 0;
 
-int pu_run_tests(char * (*all_tests)(void))
+int pu_run_tests(void (*all_tests)(void))
 {
-    char *result = all_tests();
-    if (result != 0) {
-        printf("\t%s\n", result);
-    }
-    else {
+    all_tests();
+    if (pu_tests_ok == pu_tests_count) {
         printf("ALL TESTS PASSED\n");
     }
-    printf("Tests run: %d\n\n", pu_tests_run);
+    printf("Test passed: %d/%d\n\n", pu_tests_ok, pu_tests_count);
 
-    return result != 0;
+    return pu_tests_ok == pu_tests_count;
 }

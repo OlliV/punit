@@ -41,20 +41,22 @@
                                       return message; }                \
                                     } while (0)
 
-#define pu_run_test(test) do { char * message;                         \
-                               printf("-%s\n", #test);                 \
-                               setup();                                \
-                               message = test(); pu_tests_run++;       \
-                               teardown();                             \
-                               if (message) return message;            \
+#define pu_run_test(test) do { char * message;                                \
+                               printf("-%s\n", #test);                        \
+                               setup();                                       \
+                               message = test(); pu_tests_count++;            \
+                               teardown();                                    \
+                               if (message) { printf("\t%s\n", message);      \
+                               } else pu_tests_ok++;                          \
                              } while (0)
 
 #define PU_TEST_BUILD 1 /*!< This definition can be used to exclude included
                          * files and souce code that are not needed for unit
                          * tests. */
 
-extern int pu_tests_run; /*!< Global tests run counter. */
+extern int pu_tests_ok; /*!< Global tests ok counter. */
+extern int pu_tests_count; /*!< Global tests counter. */
 
-int pu_run_tests(char * (*all_tests)(void));
+int pu_run_tests(void (*all_tests)(void));
 
 #endif /* PUNIT_H */

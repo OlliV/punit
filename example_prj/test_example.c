@@ -28,11 +28,10 @@ static char * test_bar()
     return 0;
 }
 
-static char * all_tests()
+static void all_tests()
 {
     pu_run_test(test_foo);
     pu_run_test(test_bar);
-    return 0;
 }
 
 int main(int argc, char **argv)
