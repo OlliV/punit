@@ -36,20 +36,25 @@
 #include "stdio.h"
 
 #define pu_assert(message, test) do { if (!(test)) { \
-                                    printf("FAILED: %s:%d: (%s)\n", __FILE__, __LINE__, #test); \
-                                    return message; }} while (0)
+                                      printf("FAILED: %s:%d: (%s)\n", __FILE__, __LINE__, #test); \
+                                      return message; } \
+                                    } while (0)
 
-#define pu_run_test(test) do { printf("-%s\n", #test); \
-                               setup(); \
-                               char *message = test(); pu_tests_run++; \
-                               teardown(); \
-                               if (message) return message; \
+#define pu_run_test(test) do { char * message;                         \
+                               printf("-%s\n", #test);                 \
+                               setup();                                \
+                               message = test(); pu_tests_run++;       \
+                               teardown();                             \
+                               if (message) return message;            \
                              } while (0)
 
 #define PU_TEST_BUILD 1 /*!< This definition can be used to exclude included
                          * files and souce code that are not needed for unit
                          * tests. */
 
+/**
+ * Global tests run counter.
+ */
 extern int pu_tests_run;
 
 int pu_run_tests(char * (*all_tests)(void));
