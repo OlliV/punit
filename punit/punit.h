@@ -33,9 +33,13 @@
 #ifndef PUNIT_H
 #define PUNIT_H
 
-#define pu_assert(message, test) do { if (!(test)) return message; } while (0)
+#include "stdio.h"
 
-#define pu_run_test(test) do { printf("\t%s\n", #test); \
+#define pu_assert(message, test) do { if (!(test)) { \
+                                    printf("FAILED: %s:%d: (%s)\n", __FILE__, __LINE__, #test); \
+                                    return message; }} while (0)
+
+#define pu_run_test(test) do { printf("-%s\n", #test); \
                                setup(); \
                                char *message = test(); pu_tests_run++; \
                                teardown(); \

@@ -38,7 +38,7 @@ int pu_run_tests(char * (*all_tests)(void))
 {
     char *result = all_tests();
     if (result != 0) {
-        printf("%s\n", result);
+        printf("\t%s\n", result);
     }
     else {
         printf("ALL TESTS PASSED\n");
