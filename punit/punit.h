@@ -35,9 +35,10 @@
 
 #include "stdio.h"
 
-#define pu_assert(message, test) do { if (!(test)) { \
-                                      printf("FAILED: %s:%d: (%s)\n", __FILE__, __LINE__, #test); \
-                                      return message; } \
+#define pu_assert(message, test) do { if (!(test)) {                   \
+                                      printf("FAILED: %s:%d: (%s)\n",  \
+                                      __FILE__, __LINE__, #test);      \
+                                      return message; }                \
                                     } while (0)
 
 #define pu_run_test(test) do { char * message;                         \
@@ -52,10 +53,7 @@
                          * files and souce code that are not needed for unit
                          * tests. */
 
-/**
- * Global tests run counter.
- */
-extern int pu_tests_run;
+extern int pu_tests_run; /*!< Global tests run counter. */
 
 int pu_run_tests(char * (*all_tests)(void));
 
