@@ -30,8 +30,8 @@ static char * test_bar()
 
 static char * all_tests()
 {
-    pu_run_test(test_foo, "test_foo");
-    pu_run_test(test_bar, "test_bar");
+    pu_run_test(test_foo);
+    pu_run_test(test_bar);
     return 0;
 }
 

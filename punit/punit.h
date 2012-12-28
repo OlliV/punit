@@ -29,19 +29,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#pragma once
+#ifndef PUNIT_H
+#define PUNIT_H
+
 #define pu_assert(message, test) do { if (!(test)) return message; } while (0)
 
-#define pu_run_test(test, name) do { printf("\t%s\n", name); \
-                                     setup(); \
-                                     char *message = test(); pu_tests_run++; \
-                                     teardown(); \
-                                     if (message) return message; \
-                                   } while (0)
+#define pu_run_test(test) do { printf("\t%s\n", #test); \
+                               setup(); \
+                               char *message = test(); pu_tests_run++; \
+                               teardown(); \
+                               if (message) return message; \
+                             } while (0)
 
 #define PU_TEST_BUILD 1 /*!< This definition can be used to exclude included
-                         * files and  souce code that are not needed for unit
+                         * files and souce code that are not needed for unit
                          * tests. */
 
 extern int pu_tests_run;
 
 int pu_run_tests(char * (*all_tests)(void));
+
+#endif /* PUNIT_H */
