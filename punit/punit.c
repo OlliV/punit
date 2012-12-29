@@ -43,5 +43,5 @@ int pu_run_tests(void (*all_tests)(void))
     }
     printf("Test passed: %d/%d\n\n", pu_tests_ok, pu_tests_count);
 
-    return pu_tests_ok == pu_tests_count;
+    return pu_tests_ok != pu_tests_count;
 }
