@@ -39,7 +39,7 @@ ODIR = obj
 BDIR = bin
 
 CC = gcc
-CCFLAGS += -Wall -pedantic -MMD -DMU_TEST_BUILD
+CCFLAGS += -Wall -pedantic -MMD -DPU_TEST_BUILD
 
 OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
 TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
