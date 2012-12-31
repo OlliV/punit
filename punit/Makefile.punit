@@ -69,7 +69,9 @@ punit: ../punit/punit.c
 $(OBJ): $(SRC)
 	@echo "Build MUT: $@"
 	@echo "=================================================================="
-	$(CC) $(IDIR) $(CCFLAGS) -c $< -o $@
+	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
+	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(SRC)))
+	$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o $@
 	@echo "=================================================================="
 
 # Tests
