@@ -8,11 +8,11 @@ Inspired by: http://www.jera.com/techinfo/jtns/jtn002.html
 Setting up directory tree
 -------------------------
 
-   .
-   |-example_prj	(Test suite)
-   |---bin
-   |---obj
-   |-punit		(PUnit)
+    .
+    |-example_prj	(Test suite)
+    |---bin
+    |---obj
+    |-punit		(PUnit)
 
 
 How to implement a new test suite
