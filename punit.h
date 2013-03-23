@@ -35,7 +35,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#if PU_LMATH == 1
 #include <math.h>
+#endif
 
 #define pu_assert(message, test) do { if (!(test)) { \
         printf("FAILED: %s:%d: (%s)\n",              \

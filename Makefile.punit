@@ -40,6 +40,9 @@ BDIR = bin
 
 CC = gcc
 CCFLAGS += -Wall -pedantic -MMD -DPU_TEST_BUILD
+ifeq ($(PU_LMATH),1)
+	CCFLAGS += -lm -DPU_LMATH
+endif
 
 OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
 TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
