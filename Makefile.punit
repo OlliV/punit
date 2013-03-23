@@ -26,17 +26,32 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# MUTs
+# MUTs ########################################################################
 SRC = $(foreach d,$(dir $(SRCDIR)),$(wildcard $(d)*.c))
+###############################################################################
 
-# Tests
-TEST_SRC = $(wildcard *.c)
-
+# Dirs ########################################################################
 IDIR += ../punit
 IDIR := $(patsubst %,-I%,$(subst :, ,$(IDIR)))
 
 ODIR = obj
 BDIR = bin
+###############################################################################
+
+# PUnit #######################################################################
+# Sources
+PU_SRC += ../punit/punit.c
+ifeq ($(PU_UU),1)
+	PU_SRC += ../punit/unixunit.c
+endif
+
+# Objs
+PU_OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(PU_SRC:.c=.o)))
+###############################################################################
+
+# Tests #######################################################################
+TEST_SRC = $(wildcard *.c)
+###############################################################################
 
 CC = gcc
 CCFLAGS += -Wall -pedantic -MMD -DPU_TEST_BUILD
@@ -47,6 +62,7 @@ endif
 OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
 TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
 
+# Clever way to get space char
 space = $(empty) $(empty)
 
 # There is a test for following modules
@@ -58,15 +74,18 @@ SRC_MODULES = $(filter $(TEST_MODS),$(basename $(notdir $(SRC))))
 # Source files of modules that are actually testable
 SRC := $(filter $(foreach file,$(TEST_MODS), %/$(file).c), $(SRC))
 
-#### Targets ####
-all: punit $(OBJ) $(TEST_EXECUTABLES) run
+#### Targets ##################################################################
+all: punit $(PU_OBJ) $(OBJ) $(TEST_EXECUTABLES) run
 	@echo "'make all' done"
 
-punit: ../punit/punit.c
+punit: $(PU_SRC)
 	@echo "Build unit test framework"
 	@echo "=================================================================="
-	$(CC) $(IDIR) $(CCFLAGS) -c $^ -o ./$(ODIR)/punit.o
-	@echo "=================================================================="
+
+$(PU_OBJ): $(PU_SRC)
+	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
+	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(PU_SRC)))
+	$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o ./$@
 
 # MUTs
 $(OBJ): $(SRC)
@@ -78,7 +97,7 @@ $(OBJ): $(SRC)
 	@echo "=================================================================="
 
 # Tests
-bin/%: %.c ./$(ODIR)/punit.o
+bin/%: %.c $(PU_OBJ)
 	@echo "Build test: $@"
 	@echo "=================================================================="
 	$(eval TESTS := $(filter-out test,$(subst _,$(space),$(basename $(notdir $@)))))
