@@ -28,6 +28,18 @@ How to implement a new test suite
    tests.
 
 
+Assertions
+----------
+
++ pu_assert(message, test) - Checks if boolean value of test is true
++ pu_assert_equal(message, left, right) - Checks if left == right is true
++ pu_assert_str_equal(message, left, right) - Checks if left and right strings
+  are equal (strcmp)
++ pu_assert_double_equal(message, left, right, delta) - Checks if left and
+  right doubles are appoximately equal
++ pu_assert_fail(message) - Always fails
+
+
 License 
 -------
 

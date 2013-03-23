@@ -8,5 +8,8 @@ SRCDIR = ./
 # Add here one or more include directories.
 IDIR = ./
 
+# Add -lm here if you will use asserts that compares floats or doubles
+CCFLAGS = -lm
+
 # DO NOT TOUCH
 include ../punit/Makefile.punit

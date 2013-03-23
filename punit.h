@@ -33,21 +33,47 @@
 #ifndef PUNIT_H
 #define PUNIT_H
 
-#include "stdio.h"
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
-#define pu_assert(message, test) do { if (!(test)) {                   \
-                                      printf("FAILED: %s:%d: (%s)\n",  \
-                                      __FILE__, __LINE__, #test);      \
-                                      return message; }                \
-                                    } while (0)
+#define pu_assert(message, test) do { if (!(test)) { \
+        printf("FAILED: %s:%d: (%s)\n",              \
+            __FILE__, __LINE__, #test);              \
+        return message; }                            \
+} while (0)
 
-#define pu_run_test(test) do { char * message;                                \
-                               printf("-%s\n", #test);                        \
-                               setup();                                       \
-                               message = test(); pu_tests_count++;            \
-                               teardown();                                    \
-                               if (message) { printf("\t%s\n", message);      \
-                               } else pu_tests_ok++;                          \
+#define pu_assert_equal(message, left, right) do { if (!(left == right)) { \
+        printf("FAILED: %s:%d: %i == %i\n",                                \
+            __FILE__, __LINE__, left, right);                              \
+        return message; }                                                  \
+} while(0)
+
+#define pu_assert_str_equal(message, left, right) do {  \
+    if (strcmp(left, right) != 0) {                     \
+        printf("FAILED: %s:%d: \"%s\" equals \"%s\"\n", \
+            __FILE__, __LINE__, left, right);           \
+    return message; }                                   \
+} while (0)
+
+#define pu_assert_double_equal(message, left, right, delta) do {            \
+    if (!(fabs((double)left - (double)right) < (double)delta)) {            \
+        printf("FAILED: %s:%d: %f is approximately equal to %f (d = %f)\n", \
+            __FILE__, __LINE__, left, right, delta);                        \
+        return message; }                                                   \
+} while(0)
+
+#define pu_assert_fail(message) do { printf("FAILED: Assert fail\n"); \
+    return message;                                                   \
+} while (0)
+
+#define pu_run_test(test) do { char * message;                           \
+                               printf("-%s\n", #test);                   \
+                               setup();                                  \
+                               message = test(); pu_tests_count++;       \
+                               teardown();                               \
+                               if (message) { printf("\t%s\n", message); \
+                               } else pu_tests_ok++;                     \
                              } while (0)
 
 #define PU_TEST_BUILD 1 /*!< This definition can be used to exclude included
