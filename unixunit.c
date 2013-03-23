@@ -46,7 +46,7 @@ void uu_open_pipe()
     /* Open pipe */
     if (pipe(uu_pipe) == -1) {
         fprintf(stderr, "FAILED: Pipe failed.");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -60,7 +60,7 @@ void uu_open_stdin_writer()
     uu_stdin_writer = fdopen(uu_pipe[1], "w");
     if (uu_stdin_writer == NULL) {
         fprintf(stderr, "FAILED: Cannot open stdin for write access.");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -72,7 +72,7 @@ void uu_write_stdin(char * str)
 {
     if (uu_stdin_writer == NULL) {
         fprintf(stderr, "FAILED: Stdin writer not open.");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     fwrite(str, 1, strlen(str), uu_stdin_writer);
 }
