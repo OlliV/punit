@@ -35,6 +35,11 @@
 int pu_tests_ok = 0;
 int pu_tests_count = 0;
 
+/**
+ * Run PUnit tests.
+ * This should be called in main().
+ * @param all_tests pointer to a function containing actual test calls.
+ */
 int pu_run_tests(void (*all_tests)(void))
 {
     all_tests();

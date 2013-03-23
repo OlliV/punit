@@ -39,18 +39,38 @@
 #include <math.h>
 #endif
 
+/**
+ * Assert condition.
+ * Checks if boolean value of test is true.
+ * @param message is shown if assert fails.
+ * @param test condition, also shown if assert fails.
+ */
 #define pu_assert(message, test) do { if (!(test)) { \
         printf("FAILED: %s:%d: (%s)\n",              \
             __FILE__, __LINE__, #test);              \
         return message; }                            \
 } while (0)
 
+/**
+ * Assert equal.
+ * Checks if left == right is true.
+ * @param message is shown if assert fails.
+ * @param left value.
+ * @param right value.
+ */
 #define pu_assert_equal(message, left, right) do { if (!(left == right)) { \
         printf("FAILED: %s:%d: %i == %i\n",                                \
             __FILE__, __LINE__, left, right);                              \
         return message; }                                                  \
 } while(0)
 
+/**
+ * String equal.
+ * Checks if left and right strings are equal (strcmp).
+ * @param message is shown if assert fails.
+ * @param left null-terminated string.
+ * @param right null-terminated string.
+ */
 #define pu_assert_str_equal(message, left, right) do {  \
     if (strcmp(left, right) != 0) {                     \
         printf("FAILED: %s:%d: \"%s\" equals \"%s\"\n", \
@@ -59,6 +79,14 @@
 } while (0)
 
 #if PU_LMATH == 1
+/**
+ * Doubles approximately equal.
+ * Checks if left and right doubles are appoximately equal.
+ * @param message is shown if assert fails.
+ * @param left value as double.
+ * @param right value as double.
+ * @param delta difference allowed.
+ */
 #define pu_assert_double_equal(message, left, right, delta) do {            \
     if (!(fabs((double)left - (double)right) < (double)delta)) {            \
         printf("FAILED: %s:%d: %f is approximately equal to %f (d = %f)\n", \
@@ -67,10 +95,20 @@
 } while(0)
 #endif
 
+/**
+ * Assert fail.
+ * Always fails.
+ * @param message that is shown.
+ */
 #define pu_assert_fail(message) do { printf("FAILED: Assert fail\n"); \
     return message;                                                   \
 } while (0)
 
+/**
+ * Run test.
+ * This is only used in all_tests() function to declare a test that should
+ * be run.
+ */
 #define pu_run_test(test) do { char * message;                           \
                                printf("-%s\n", #test);                   \
                                setup();                                  \
