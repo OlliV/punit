@@ -58,12 +58,14 @@
     return message; }                                   \
 } while (0)
 
+#if PU_LMATH == 1
 #define pu_assert_double_equal(message, left, right, delta) do {            \
     if (!(fabs((double)left - (double)right) < (double)delta)) {            \
         printf("FAILED: %s:%d: %f is approximately equal to %f (d = %f)\n", \
             __FILE__, __LINE__, left, right, delta);                        \
         return message; }                                                   \
 } while(0)
+#endif
 
 #define pu_assert_fail(message) do { printf("FAILED: Assert fail\n"); \
     return message;                                                   \
