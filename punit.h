@@ -104,25 +104,36 @@
     return message;                                                   \
 } while (0)
 
+#define PU_RUN  1
+#define PU_SKIP 0
+
 /**
  * Run test.
  * This is only used in all_tests() function to declare a test that should
  * be run.
  */
-#define pu_run_test(test) do { char * message;                           \
-                               printf("-%s\n", #test);                   \
-                               setup();                                  \
-                               message = test(); pu_tests_count++;       \
-                               teardown();                               \
-                               if (message) { printf("\t%s\n", message); \
-                               } else pu_tests_ok++;                     \
-                             } while (0)
+#define pu_def_test(test, run) do { char * message; \
+    printf("-%s\n", #test);                         \
+    if (run == PU_SKIP) {                           \
+        pu_tests_count++;                           \
+        pu_tests_skipped++;                         \
+        break;                                      \
+    }                                               \
+    setup();                                        \
+    message = test(); pu_tests_count++;             \
+    teardown();                                     \
+    if (message) { printf("\t%s\n", message);       \
+    } else pu_tests_ok++;                           \
+} while (0)
+
+#define pu_run_test(test) pu_def_test(test, PU_RUN)
 
 #define PU_TEST_BUILD 1 /*!< This definition can be used to exclude included
                          * files and souce code that are not needed for unit
                          * tests. */
 
 extern int pu_tests_ok; /*!< Global tests ok counter. */
+extern int pu_tests_skipped; /*! Global tests skipped counter */
 extern int pu_tests_count; /*!< Global tests counter. */
 
 int pu_run_tests(void (*all_tests)(void));

@@ -28,10 +28,17 @@ static char * test_bar()
     return 0;
 }
 
+static char * test_derp()
+{
+    pu_assert("error, bar != 5", bar == 5);
+    return 0;
+}
+
 static void all_tests()
 {
-    pu_run_test(test_foo);
-    pu_run_test(test_bar);
+    pu_run_test(test_foo); /* Old way */
+    pu_def_test(test_bar, PU_RUN); /* New way */
+    pu_def_test(test_bar, PU_SKIP);
 }
 
 int main(int argc, char **argv)

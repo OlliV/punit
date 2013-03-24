@@ -33,6 +33,7 @@
 #include "punit.h"
 
 int pu_tests_ok = 0;
+int pu_tests_skipped = 0;
 int pu_tests_count = 0;
 
 /**
@@ -46,7 +47,9 @@ int pu_run_tests(void (*all_tests)(void))
     if (pu_tests_ok == pu_tests_count) {
         printf("ALL TESTS PASSED\n");
     }
-    printf("Test passed: %d/%d\n\n", pu_tests_ok, pu_tests_count);
+
+    printf("Test passed: %d/%d, skipped: %d\n\n",
+        pu_tests_ok, pu_tests_count, pu_tests_skipped);
 
     return pu_tests_ok != pu_tests_count;
 }
