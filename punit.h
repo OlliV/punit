@@ -113,12 +113,13 @@
  * be run.
  */
 #define pu_def_test(test, run) do { char * message; \
-    printf("-%s\n", #test);                         \
     if (run == PU_SKIP) {                           \
+        printf("-%s, skipped\n", #test);            \
         pu_tests_count++;                           \
         pu_tests_skipped++;                         \
         break;                                      \
     }                                               \
+    printf("-%s\n", #test);                         \
     setup();                                        \
     message = test(); pu_tests_count++;             \
     teardown();                                     \

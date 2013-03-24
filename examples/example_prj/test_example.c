@@ -38,7 +38,7 @@ static void all_tests()
 {
     pu_run_test(test_foo); /* Old way */
     pu_def_test(test_bar, PU_RUN); /* New way */
-    pu_def_test(test_bar, PU_SKIP);
+    pu_def_test(test_derp, PU_SKIP);
 }
 
 int main(int argc, char **argv)
