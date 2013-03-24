@@ -59,8 +59,8 @@
  * @param right value.
  */
 #define pu_assert_equal(message, left, right) do { if (!(left == right)) { \
-        printf("FAILED: %s:%d: %i == %i\n",                                \
-            __FILE__, __LINE__, left, right);                              \
+        printf("FAILED: %s:%d: %s == %s\n\tleft:\t%i\n\tright:\t%i\n",     \
+            __FILE__, __LINE__, #left, #right, left, right);               \
         return message; }                                                  \
 } while(0)
 
@@ -71,11 +71,11 @@
  * @param left null-terminated string.
  * @param right null-terminated string.
  */
-#define pu_assert_str_equal(message, left, right) do {  \
-    if (strcmp(left, right) != 0) {                     \
-        printf("FAILED: %s:%d: \"%s\" equals \"%s\"\n", \
-            __FILE__, __LINE__, left, right);           \
-    return message; }                                   \
+#define pu_assert_str_equal(message, left, right) do {       \
+    if (strcmp(left, right) != 0) {                          \
+        printf("FAILED: %s:%d: %s equals %s\n\tleft:\t\"%s\"\n\tright:\t\"%s\"\n", \
+            __FILE__, __LINE__, #left, #right, left, right); \
+    return message; }                                        \
 } while (0)
 
 #if PU_LMATH == 1
@@ -87,11 +87,11 @@
  * @param right value as double.
  * @param delta difference allowed.
  */
-#define pu_assert_double_equal(message, left, right, delta) do {            \
-    if (!(fabs((double)left - (double)right) < (double)delta)) {            \
-        printf("FAILED: %s:%d: %f is approximately equal to %f (d = %f)\n", \
-            __FILE__, __LINE__, left, right, delta);                        \
-        return message; }                                                   \
+#define pu_assert_double_equal(message, left, right, delta) do {    \
+    if (!(fabs((double)left - (double)right) < (double)delta)) {    \
+        printf("FAILED: %s:%d: %s is approximately equal to %s\n\tleft:\t%f\n\tright:\t%f\n\tdelta:\t%f\n", \
+            __FILE__, __LINE__, #left, #right, left, right, delta); \
+        return message; }                                           \
 } while(0)
 #endif
 

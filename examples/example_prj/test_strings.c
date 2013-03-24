@@ -1,4 +1,4 @@
-/* file test_example.c */
+/* file test_strings.c */
 
 #include <stdio.h>
 #include "punit.h"
@@ -13,13 +13,17 @@ static void teardown()
 
 static char * test_ok()
 {
-    pu_assert_str_equal("Strings are equal", "test string", "test string");
+    char str[] = "left string";
+
+    pu_assert_str_equal("Strings are equal", str, "test string");
     return 0;
 }
 
 static char * test_fail()
 {
-    pu_assert_str_equal("Strings are equal", "left string", "right string");
+    char str[] = "left string";
+
+    pu_assert_str_equal("Strings are equal", str, "right string");
     return 0;
 }
 

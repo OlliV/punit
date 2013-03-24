@@ -1,4 +1,4 @@
-/* file test_example.c */
+/* file test_doubles.c */
 
 #include <stdio.h>
 #include "punit.h"
@@ -13,13 +13,17 @@ static void teardown()
 
 static char * test_ok()
 {
-    pu_assert_double_equal("Values are approximately equal", 4.0f, 4.2f, 0.3f);
+    double value = 4.0f;
+
+    pu_assert_double_equal("Values are approximately equal", value, 4.2f, 0.3f);
     return 0;
 }
 
 static char * test_fail()
 {
-    pu_assert_double_equal("Values are approximately equal", 3.0f, 5.0f, 0.5f);
+    double value = 3.0f;
+
+    pu_assert_double_equal("Values are approximately equal", value, 5.0f, 0.5f);
     return 0;
 }
 
