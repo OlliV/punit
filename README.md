@@ -5,14 +5,17 @@ PUnit, a portable unit testing framework for C.
 Inspired by: http://www.jera.com/techinfo/jtns/jtn002.html
 
 
-Setting up directory tree
--------------------------
+Setting up the directory tree
+-----------------------------
 
     .
-    |-example_prj	(Test suite)
+    |-example_prj_target1   (Your test suite)
     |---bin
     |---obj
-    |-punit		(PUnit)
+    |-example_prj_target2
+    |---bin
+    |---obj
+    |-punit                 (PUnit)
 
 
 How to implement a new test suite
