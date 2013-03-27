@@ -27,8 +27,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** @addtogroup PUnit
+  * @{
+  */
+
+/** @addtogroup Unix_Unit
+  * @{
+  */
+
 #ifndef UNIXUNIT_H
 #define UNIXUNIT_H
+
+/** @addtogroup Stdin_writer
+  * @{
+  */
 
 /* Stdin writer */
 void uu_open_pipe();
@@ -37,4 +49,17 @@ void uu_write_stdin(char * str);
 void uu_close_stdin_writer();
 void uu_close_pipe();
 
+/**
+  * @}
+  */
+
 #endif
+
+/**
+  * @}
+  */
+
+
+/**
+  * @}
+  */

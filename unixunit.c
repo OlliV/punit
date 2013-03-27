@@ -27,15 +27,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** @addtogroup PUnit
+  * @{
+  */
+
+/** @addtogroup Unix_Unit
+  * @{
+  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include "unixunit.h"
 
+/** @addtogroup Stdin_writer
+  * @{
+  */
+
 /* Stdin writer variables */
-static FILE * uu_stdin_writer = NULL;
-static int uu_pipe[2];
+static FILE * uu_stdin_writer = NULL; /*!< Pointer used for writing to stdin */
+static int uu_pipe[2]; /* Pipe inodes. */
 
 /**
  * Open pipe.
@@ -43,7 +55,6 @@ static int uu_pipe[2];
  */
 void uu_open_pipe()
 {
-    /* Open pipe */
     if (pipe(uu_pipe) == -1) {
         fprintf(stderr, "FAILED: Pipe failed.");
         exit(EXIT_FAILURE);
@@ -65,7 +76,7 @@ void uu_open_stdin_writer()
 }
 
 /**
- * Writes a null-terminated string to the stdin.
+ * Writes a null-terminated string to stdin.
  * @param str a null-terminated string.
  */
 void uu_write_stdin(char * str)
@@ -93,7 +104,18 @@ void uu_close_stdin_writer()
  */
 void uu_close_pipe()
 {
-    /* Close pipe */
     close(uu_pipe[0]);
     close(uu_pipe[1]);
 }
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */

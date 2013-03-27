@@ -29,6 +29,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/** @addtogroup PUnit
+  * @{
+  */
+
 #pragma once
 #ifndef PUNIT_H
 #define PUNIT_H
@@ -104,13 +108,15 @@
     return message;                                                   \
 } while (0)
 
-#define PU_RUN  1
-#define PU_SKIP 0
+#define PU_RUN  1 /*!< Marks that a particular test should be run. */
+#define PU_SKIP 0 /*!< Marks that a particular test should be skipped. */
 
 /**
- * Run test.
+ * Define and run test.
  * This is only used in all_tests() function to declare a test that should
  * be run.
+ * @param test to be run.
+ * @param run PU_RUN or PU_SKIP
  */
 #define pu_def_test(test, run) do { char * message; \
     if (run == PU_SKIP) {                           \
@@ -124,19 +130,29 @@
     message = test(); pu_tests_count++;             \
     teardown();                                     \
     if (message) { printf("\t%s\n", message);       \
-    } else pu_tests_ok++;                           \
+    } else pu_tests_passed++;                       \
 } while (0)
 
+/**
+ * Run tests.
+ * @deprecated Same as pu_def_test(test, PU_RUN).
+ * @param test to be run.
+ */
 #define pu_run_test(test) pu_def_test(test, PU_RUN)
 
 #define PU_TEST_BUILD 1 /*!< This definition can be used to exclude included
                          * files and souce code that are not needed for unit
                          * tests. */
 
-extern int pu_tests_ok; /*!< Global tests ok counter. */
+extern int pu_tests_passed; /*!< Global tests passed counter. */
 extern int pu_tests_skipped; /*! Global tests skipped counter */
 extern int pu_tests_count; /*!< Global tests counter. */
 
+/* Documented in punit.c */
 int pu_run_tests(void (*all_tests)(void));
 
 #endif /* PUNIT_H */
+
+/**
+  * @}
+  */
