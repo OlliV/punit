@@ -55,8 +55,13 @@ TEST_SRC = $(wildcard *.c)
 
 CC = gcc
 CCFLAGS += -Wall -pedantic -MMD -DPU_TEST_BUILD
+# Link math?
 ifeq ($(PU_LMATH),1)
 	CCFLAGS += -lm -DPU_LMATH
+endif
+# Report oriented?
+ifeq ($(PU_REPORT_ORIENTED),1)
+    CCFLAGS += -DPU_REPORT_ORIENTED
 endif
 
 OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))

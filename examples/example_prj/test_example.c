@@ -18,6 +18,8 @@ static void teardown()
 
 static char * test_foo()
 {
+    pu_test_description("This test case will just demostrate usage of the most basic assert function.");
+
     pu_assert("error, foo != 7", foo == 7);
     return 0;
 }
@@ -36,6 +38,7 @@ static char * test_derp()
 
 static void all_tests()
 {
+    pu_mod_description("This is an example of a test module.");
     pu_run_test(test_foo); /* Old way */
     pu_def_test(test_bar, PU_RUN); /* New way */
     pu_def_test(test_derp, PU_SKIP);

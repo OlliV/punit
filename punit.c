@@ -42,6 +42,28 @@ int pu_tests_skipped = 0;
 int pu_tests_count = 0;
 
 /**
+ * Test module description.
+ * @param str a test module description string.
+ */
+void pu_mod_description(char * str)
+{
+#if PU_REPORT_ORIENTED == 1
+    printf("Test module: %s\n", str);
+#endif
+}
+
+/**
+ * Test case description.
+ * @param str a test case description string.
+ */
+void pu_test_description(char * str)
+{
+#if PU_REPORT_ORIENTED == 1
+    printf("\t%s\n", str);
+#endif
+}
+
+/**
  * Run PUnit tests.
  * This should be called in main().
  * @param all_tests pointer to a function containing actual test calls.

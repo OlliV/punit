@@ -15,6 +15,10 @@ PU_LMATH = 1
 # Enable Unix Unit (incl. stdin_writer)
 PU_UU = 1
 
+# Report oriented mode prints more additional information like test module and
+# test case descriptions. 0 = disabled; 1 = enabled.
+PU_REPORT_ORIENTED = 1
+
 CCFLAGS =
 
 # DO NOT TOUCH

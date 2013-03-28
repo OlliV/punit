@@ -46,7 +46,7 @@
 /**
  * Assert condition.
  * Checks if boolean value of test is true.
- * @param message is shown if assert fails.
+ * @param message shown if assert fails.
  * @param test condition, also shown if assert fails.
  */
 #define pu_assert(message, test) do { if (!(test)) { \
@@ -58,7 +58,7 @@
 /**
  * Assert equal.
  * Checks if left == right is true.
- * @param message is shown if assert fails.
+ * @param message shown if assert fails.
  * @param left value.
  * @param right value.
  */
@@ -71,7 +71,7 @@
 /**
  * String equal.
  * Checks if left and right strings are equal (strcmp).
- * @param message is shown if assert fails.
+ * @param message shown if assert fails.
  * @param left null-terminated string.
  * @param right null-terminated string.
  */
@@ -86,7 +86,7 @@
 /**
  * Doubles approximately equal.
  * Checks if left and right doubles are appoximately equal.
- * @param message is shown if assert fails.
+ * @param message shown if assert fails.
  * @param left value as double.
  * @param right value as double.
  * @param delta difference allowed.
@@ -100,6 +100,48 @@
 #endif
 
 /**
+ * Assert array equal.
+ * Asserts that each element i of two arrays are equal (==).
+ * @param message shown if assert fails.
+ * @param left value.
+ * @param right value.
+ * @param size of the array tested.
+ */
+#define pu_assert_array_equal(message, left, right, size) do {                   \
+    int i;                                                                       \
+    for (i = 0; i < size; i++) {                                                 \
+        if (!(left[i] == right[i])) {                                            \
+            printf("FAILED: %s:%d: %s == %s\n\tleft:\t%i\n\tright[%i]:\t%i\n",   \
+                __FILE__, __LINE__, #left[%i], #right, i, left[i], i, right[i]); \
+            return message; }                                                    \
+    }                                                                            \
+} while(0)
+
+/**
+ * Assert NULL.
+ * Asserts that a pointer is null.
+ * @param message shown if assert fails.
+ * @param ptr a pointer variable.
+ */
+#define pu_assert_null(message, ptr) do { if ((void *)ptr) { \
+        printf("FAILED: %s:%d: %s should be NULL\n",         \
+            __FILE__, __LINE__, #ptr);                       \
+        return message; }                                    \
+} while (0)
+
+/**
+ * Assert not NULL.
+ * Asserts that a pointer isn't null.
+ * @param message shown if assert fails.
+ * @param ptr a pointer variable.
+ */
+#define pu_assert_not_null(message, ptr) do { if (!((void *)ptr)) { \
+        printf("FAILED: %s:%d: %s should not be NULL\n",            \
+            __FILE__, __LINE__, #ptr);                              \
+        return message; }                                           \
+} while (0)
+
+/**
  * Assert fail.
  * Always fails.
  * @param message that is shown.
@@ -107,6 +149,7 @@
 #define pu_assert_fail(message) do { printf("FAILED: Assert fail\n"); \
     return message;                                                   \
 } while (0)
+
 
 #define PU_RUN  1 /*!< Marks that a particular test should be run. */
 #define PU_SKIP 0 /*!< Marks that a particular test should be skipped. */
@@ -149,6 +192,8 @@ extern int pu_tests_skipped; /*! Global tests skipped counter */
 extern int pu_tests_count; /*!< Global tests counter. */
 
 /* Documented in punit.c */
+void pu_mod_description(char * str);
+void pu_test_description(char * str);
 int pu_run_tests(void (*all_tests)(void));
 
 #endif /* PUNIT_H */

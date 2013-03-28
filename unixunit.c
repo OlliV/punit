@@ -64,6 +64,7 @@ void uu_open_pipe()
 /**
  * Opens a file stream for writing to stdin.
  * This should be called before using uu_write_stdin(char * str).
+ * @pre uu_open_pipe() should be called before this function.
  */
 void uu_open_stdin_writer()
 {
@@ -77,6 +78,8 @@ void uu_open_stdin_writer()
 
 /**
  * Writes a null-terminated string to stdin.
+ * @pre uu_open_pipe() should be called before this function.
+ * @pre uu_open_stdin_writer() should ve called before this function.
  * @param str a null-terminated string.
  */
 void uu_write_stdin(char * str)
