@@ -40,6 +40,10 @@ Assertions
   are equal (strcmp)
 + `pu_assert_double_equal(message, left, right, delta)` - Checks if left and
   right doubles are appoximately equal
++ `pu_assert_array_equal(message, left, right, size)` - Asserts that each
+  element i of two arrays are equal (==).
++ `pu_assert_null(message, ptr)` - Asserts that a pointer is null.
++ `pu_assert_not_null(message, ptr)` - Asserts that a pointer isn't null.
 + `pu_assert_fail(message)` - Always fails
 
 See examples in: `examples/example_prj`
