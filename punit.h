@@ -100,21 +100,43 @@
 #endif
 
 /**
- * Assert array equal.
- * Asserts that each element i of two arrays are equal (==).
+ * Assert integer arrays are equal.
+ * Asserts that each integer element i of two arrays are equal (==).
  * @param message shown if assert fails.
- * @param left value.
- * @param right value.
+ * @param left array.
+ * @param right array.
  * @param size of the array tested.
  */
-#define pu_assert_array_equal(message, left, right, size) do {                   \
-    int i;                                                                       \
-    for (i = 0; i < size; i++) {                                                 \
-        if (!(left[i] == right[i])) {                                            \
-            printf("FAILED: %s:%d: %s == %s\n\tleft:\t%i\n\tright[%i]:\t%i\n",   \
-                __FILE__, __LINE__, #left[%i], #right, i, left[i], i, right[i]); \
-            return message; }                                                    \
-    }                                                                            \
+#define pu_assert_array_equal(message, left, right, size) do {    \
+    int i;                                                        \
+    for (i = 0; i < (int)(size); i++) {                           \
+        if (!(left[i] == right[i])) {                             \
+            printf("FAILED: %s:%d: integer array %s equals %s\n", \
+                __FILE__, __LINE__, #left, #right);               \
+            printf("\tleft[%i]:\t%i\n\tright[%i]:\t%i\n",         \
+                i, left[i], i, right[i]);                         \
+            return message; }                                     \
+    }                                                             \
+} while(0)
+
+/**
+ * Assert string arrays are equal.
+ * Asserts that each string element i of two arrays are equal (strcmp).
+ * @param message shown if assert fails.
+ * @param left array of strings.
+ * @param right array of strings.
+ * @param size of the array tested.
+ */
+#define pu_assert_str_array_equal(message, left, right, size) do { \
+    int i;                                                         \
+    for (i = 0; i < (int)(size); i++) {                            \
+        if (strcmp(left[i], right[i]) != 0) {                      \
+            printf("FAILED: %s:%d: string array %s equals %s\n",   \
+                __FILE__, __LINE__, #left, #right);                \
+            printf("\tleft[%i]:\t\"%s\"\n\tright[%i]:\t\"%s\"\n",  \
+                i, left[i], i, right[i]);                          \
+            return message; }                                      \
+    }                                                              \
 } while(0)
 
 /**
