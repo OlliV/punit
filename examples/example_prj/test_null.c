@@ -52,4 +52,3 @@ int main(int argc, char **argv)
 {
     return pu_run_tests(&all_tests);
 }
-

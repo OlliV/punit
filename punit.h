@@ -54,6 +54,9 @@
             __FILE__, __LINE__, #test);              \
         return message; }                            \
 } while (0)
+/** \example test_example.c
+ * This is an example of how to use the pu_assert.
+ */
 
 /**
  * Assert equal.
@@ -67,6 +70,9 @@
             __FILE__, __LINE__, #left, #right, left, right);               \
         return message; }                                                  \
 } while(0)
+/** \example test_equal.c
+ * This is an example of how to use the pu_assert_equal.
+ */
 
 /**
  * Assert pointer equal.
@@ -94,6 +100,9 @@
             __FILE__, __LINE__, #left, #right, left, right); \
     return message; }                                        \
 } while (0)
+/** \example test_strings.c
+ * This is an example of how to use the pu_assert_str_equal.
+ */
 
 #if PU_LMATH == 1
 /**
@@ -111,6 +120,9 @@
         return message; }                                           \
 } while(0)
 #endif
+/** \example test_doubles.c
+ * This is an example of how to use the pu_assert_double_equal.
+ */
 
 /**
  * Assert integer arrays are equal.
@@ -131,6 +143,9 @@
             return message; }                                     \
     }                                                             \
 } while(0)
+/** \example test_arrays.c
+ * This is an example of how to use the pu_assert_array_equal.
+ */
 
 /**
  * Assert string arrays are equal.
@@ -151,6 +166,9 @@
             return message; }                                      \
     }                                                              \
 } while(0)
+/** \example test_strarrays.c
+ * This is an example of how to use the pu_assert_str_array_equal.
+ */
 
 /**
  * Assert NULL.
@@ -163,6 +181,9 @@
             __FILE__, __LINE__, #ptr);                       \
         return message; }                                    \
 } while (0)
+/** \example test_null.c
+ * This is an example of how to use the pu_assert_null.
+ */
 
 /**
  * Assert not NULL.
@@ -175,6 +196,10 @@
             __FILE__, __LINE__, #ptr);                              \
         return message; }                                           \
 } while (0)
+/** \example test_null.c
+ * This is an example of how to use the pu_assert_not_null.
+ */
+
 
 /**
  * Assert fail.
@@ -184,7 +209,6 @@
 #define pu_assert_fail(message) do { printf("FAILED: Assert fail\n"); \
     return message;                                                   \
 } while (0)
-
 
 #define PU_RUN  1 /*!< Marks that a particular test should be run. */
 #define PU_SKIP 0 /*!< Marks that a particular test should be skipped. */
