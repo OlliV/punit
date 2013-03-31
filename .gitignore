@@ -44,3 +44,5 @@ Thumbs.db
 # Ignore punit bins and objs
 */bin/
 */obj/
+
+html/
