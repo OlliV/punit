@@ -69,6 +69,19 @@
 } while(0)
 
 /**
+ * Assert pointer equal.
+ * Checks if left == right is true.
+ * @param message shown if assert fails.
+ * @param left value.
+ * @param right value.
+ */
+#define pu_assert_ptr_equal(message, left, right) do { if (!(left == right)) { \
+        printf("FAILED: %s:%d: %s == %s\n\tleft:\t%i\n\tright:\t%i\n",         \
+            __FILE__, __LINE__, #left, #right, (int)(left), (int)(right));     \
+        return message; }                                                      \
+} while(0)
+
+/**
  * String equal.
  * Checks if left and right strings are equal (strcmp).
  * @param message shown if assert fails.
