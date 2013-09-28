@@ -26,8 +26,10 @@ How to implement a new test suite
 2. Update Makefile in your new project directory according to instructions in
    the file
 3. Write new tests and name the test files in following manner:
-   `test_<module_name>.c` or even `test_<module1>_<module2>.c` etc.
-4. Run `make`. If everything went well PUnit should automatically determine
+   `test_<name>.c`
+4. Write a per test makefile `test_<name>.mk` which specifies source file for
+   the test.
+5. Run `make`. If everything went well PUnit should automatically determine
    and build all needed source modules, build the tests and finally run the
    tests.
 
@@ -73,6 +75,7 @@ Note: Do not build func.c i.e. do not add it to the name of the test module.
 License 
 -------
 
+Copyright (c) 2013, Olli Vanhoja <olli.vanhoja@cs.helsinki.fi>
 Copyright (c) 2012, Ninjaware Oy, Olli Vanhoja <olli.vanhoja@ninjaware.fi>
 All rights reserved.
 

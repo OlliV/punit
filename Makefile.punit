@@ -27,7 +27,7 @@
 #
 
 # MUTs ########################################################################
-SRC = $(foreach d,$(dir $(SRCDIR)),$(wildcard $(d)*.c))
+#SRC = $(foreach d,$(dir $(SRCDIR)),$(wildcard $(d)*.c))
 ###############################################################################
 
 # Dirs ########################################################################
@@ -50,7 +50,7 @@ PU_OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(PU_SRC:.c=.o)))
 ###############################################################################
 
 # Tests #######################################################################
-TEST_SRC = $(wildcard *.c)
+include $(wildcard *.mk)
 ###############################################################################
 
 CC = gcc
@@ -64,20 +64,18 @@ ifeq ($(PU_REPORT_ORIENTED),1)
     CCFLAGS += -DPU_REPORT_ORIENTED
 endif
 
-OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
-TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
-
 # Clever way to get space char
 space = $(empty) $(empty)
 
-# There is a test for following modules
-TEST_MODS = $(filter-out test,$(subst _,$(space),$(basename $(notdir $(TEST_SRC)))))
+# List of existing test
+TEST_LIST = $(filter-out test,$(subst _,$(space),$(basename $(notdir $(TEST_SRC)))))
+SRC = $(foreach name,$(TEST_LIST),$(SRC-$(name)))
+OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
 
-# All source modules
-SRC_MODULES = $(filter $(TEST_MODS),$(basename $(notdir $(SRC))))
+TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
 
-# Source files of modules that are actually testable
-SRC := $(filter $(foreach file,$(TEST_MODS), %/$(file).c), $(SRC))
+# TEST_SRC test sources
+# SRC = MUT source modules
 
 #### Targets ##################################################################
 all: punit $(PU_OBJ) $(OBJ) $(TEST_EXECUTABLES) run
@@ -85,6 +83,9 @@ all: punit $(PU_OBJ) $(OBJ) $(TEST_EXECUTABLES) run
 
 punit: $(PU_SRC)
 	@echo "Build unit test framework"
+	echo $(SRC)
+	echo $(SRC-testable)
+	echo $(SRC-testableb)
 	@echo "=================================================================="
 
 $(PU_OBJ): $(PU_SRC)
@@ -95,6 +96,7 @@ $(PU_OBJ): $(PU_SRC)
 # MUTs
 $(OBJ): $(SRC)
 	@echo "Build MUT: $@"
+	echo $(SRC)
 	@echo "=================================================================="
 	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
 	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(SRC)))
@@ -103,10 +105,10 @@ $(OBJ): $(SRC)
 
 # Tests
 bin/%: %.c $(PU_OBJ)
-	@echo "Build test: $@"
+	$(eval TESTNAME := $(filter-out test,$(subst _,$(space),$(basename $(notdir $@)))))
+	@echo "Build test: $(TESTNAME)"
 	@echo "=================================================================="
-	$(eval TESTS := $(filter-out test,$(subst _,$(space),$(basename $(notdir $@)))))
-	$(eval DEPS := $(foreach file,$(addsuffix .o, $(filter $(TESTS), $(SRC_MODULES))),./$(ODIR)/$(file)))
+	$(eval DEPS := $(patsubst %,./$(ODIR)/%,$(notdir $(SRC-$(TESTNAME):.c=.o))))
 	$(CC) $(CCFLAGS) $(IDIR) $^ $(DEPS) -o ./$@
 	@echo "=================================================================="
 
