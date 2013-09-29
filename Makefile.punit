@@ -81,6 +81,17 @@ TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
 all: punit $(PU_OBJ) $(OBJ) $(TEST_EXECUTABLES) run
 	@echo "'make all' done"
 
+help:
+	@echo Targets
+	@echo =======
+	@echo "all      Compile all binaries and run tests"
+	@echo "install  Create needed files and directories"
+	@echo "punit    Compile unit test framework"
+
+install:
+	mkdir $(ODIR)
+	mkdir $(BDIR)
+
 punit: $(PU_SRC)
 	@echo "Build unit test framework"
 	@echo "=================================================================="
@@ -118,4 +129,4 @@ run: $(TEST_EXECUTABLES)
 .PHONY: clean
 
 clean:
-	rm -f ./$(ODIR)/*.o ./$(TEST_EXECUTABLES)
+	rm -f ./$(ODIR)/*.o ./$(ODIR)/*.d ./$(TEST_EXECUTABLES)
