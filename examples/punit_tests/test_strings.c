@@ -15,7 +15,7 @@ static char * test_ok()
 {
     char str[] = "left string";
 
-    pu_assert_str_equal("Strings are equal", str, "test string");
+    pu_assert_str_equal("Strings are equal", str, "left string");
     return 0;
 }
 

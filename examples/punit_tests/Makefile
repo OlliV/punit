@@ -1,7 +1,7 @@
 # PUnit example project #######################################################
 
 # Add here one or more include directories.
-IDIR = ./ ./testable
+IDIR = ./
 
 # Set this to 1 if you will use asserts that compares floats or doubles;
 # or 0 disable
@@ -16,5 +16,6 @@ PU_REPORT_ORIENTED = 1
 
 CCFLAGS =
 
-# DO NOT TOUCH
+# Location of punit makefile
+# Do not touch
 include ../punit/Makefile.punit

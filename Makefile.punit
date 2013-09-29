@@ -53,7 +53,7 @@ PU_OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(PU_SRC:.c=.o)))
 include $(wildcard *.mk)
 ###############################################################################
 
-CC = gcc
+CC ?= gcc
 CCFLAGS += -Wall -pedantic -MMD -DPU_TEST_BUILD
 # Link math?
 ifeq ($(PU_LMATH),1)
@@ -83,9 +83,6 @@ all: punit $(PU_OBJ) $(OBJ) $(TEST_EXECUTABLES) run
 
 punit: $(PU_SRC)
 	@echo "Build unit test framework"
-	echo $(SRC)
-	echo $(SRC-testable)
-	echo $(SRC-testableb)
 	@echo "=================================================================="
 
 $(PU_OBJ): $(PU_SRC)
