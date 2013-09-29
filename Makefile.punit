@@ -104,7 +104,6 @@ $(PU_OBJ): $(PU_SRC)
 # MUTs
 $(OBJ): $(SRC)
 	@echo "Build MUT: $@"
-	echo $(SRC)
 	@echo "=================================================================="
 	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
 	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(SRC)))
