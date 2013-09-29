@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>PUnit, a portable unit testing framework for C. Inspired by: <a href="http://www.jera.com/techinfo/jtns/jtn002.html">http://www.jera.com/techinfo/jtns/jtn002.html</a></p>
+<p>Complete documentation: <a href="http://ninjaware.github.com/punit/">http://ninjaware.github.com/punit/</a></p>
 <h2>Setting up the directory tree</h2>
 <pre class="fragment">.
 |-example_prj_target1   (Your test suite)
@@ -93,7 +94,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <ol type="1">
 <li><code>cp -R example_prj name_of_your_project</code></li>
 <li>Update Makefile in your new project directory according to instructions in the file</li>
-<li>Write new tests and name the test files in following manner: <code>test_&lt;module_name&gt;.c</code> or even <code>test_&lt;module1&gt;_&lt;module2&gt;.c</code> etc.</li>
+<li>Write new tests and name the test files in following manner: <code>test_&lt;name&gt;.c</code></li>
+<li>Write a per test makefile <code>test_&lt;name&gt;.mk</code> which specifies source file for the test.</li>
 <li>Run <code>make</code>. If everything went well PUnit should automatically determine and build all needed source modules, build the tests and finally run the tests.</li>
 </ol>
 <h2>Assertions</h2>
@@ -120,7 +122,7 @@ void my_func(void) { }
 #include "func.h"
 </pre><p>Note: Do not build func.c i.e. do not add it to the name of the test module.</p>
 <h2>License </h2>
-<p>Copyright (c) 2012, Ninjaware Oy, Olli Vanhoja <a href="#" onclick="location.href='mai'+'lto:'+'oll'+'i.'+'van'+'ho'+'ja@'+'ni'+'nja'+'wa'+'re.'+'fi'; return false;">olli.<span style="display: none;">.nosp@m.</span>vanh<span style="display: none;">.nosp@m.</span>oja@n<span style="display: none;">.nosp@m.</span>inja<span style="display: none;">.nosp@m.</span>ware.<span style="display: none;">.nosp@m.</span>fi</a> All rights reserved.</p>
+<p>Copyright (c) 2013, Olli Vanhoja <a href="#" onclick="location.href='mai'+'lto:'+'oll'+'i.'+'van'+'ho'+'ja@'+'cs'+'.he'+'ls'+'ink'+'i.'+'fi'; return false;">olli.<span style="display: none;">.nosp@m.</span>vanh<span style="display: none;">.nosp@m.</span>oja@c<span style="display: none;">.nosp@m.</span>s.he<span style="display: none;">.nosp@m.</span>lsink<span style="display: none;">.nosp@m.</span>i.fi</a> Copyright (c) 2012, Ninjaware Oy, Olli Vanhoja <a href="#" onclick="location.href='mai'+'lto:'+'oll'+'i.'+'van'+'ho'+'ja@'+'ni'+'nja'+'wa'+'re.'+'fi'; return false;">olli.<span style="display: none;">.nosp@m.</span>vanh<span style="display: none;">.nosp@m.</span>oja@n<span style="display: none;">.nosp@m.</span>inja<span style="display: none;">.nosp@m.</span>ware.<span style="display: none;">.nosp@m.</span>fi</a> All rights reserved.</p>
 <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
 <ol type="1">
 <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
@@ -130,7 +132,7 @@ void my_func(void) { }
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 31 2013 17:49:22 for PUnit by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Sep 29 2013 15:35:59 for PUnit by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
