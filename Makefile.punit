@@ -70,10 +70,13 @@ space = $(empty) $(empty)
 
 # List of existing test
 TEST_LIST = $(filter-out test,$(subst _,$(space),$(basename $(notdir $(TEST_SRC)))))
-SRC = $(foreach name,$(TEST_LIST),$(SRC-$(name)))
+SRC = $(sort $(foreach name,$(TEST_LIST),$(SRC-$(name))))
 OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
 
 TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
+
+# Set test set name if ont set yet
+TSETNAME ?= ${shell pwd | sed 's|.*/||'}
 
 # TEST_SRC test sources
 # SRC = MUT source modules
@@ -122,7 +125,7 @@ bin/%: %.c $(PU_OBJ)
 
 # Run tests
 run: $(TEST_EXECUTABLES)
-	@echo "Run all tests"
+	@echo "Run all tests: $(TSETNAME)"
 	@echo "=================================================================="
 	@$(foreach exe,$^,echo "$(exe):"; $(exe); )
 
