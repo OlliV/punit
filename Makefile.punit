@@ -112,7 +112,7 @@ $(OBJ): $(SRC)
 	@echo "=================================================================="
 	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
 	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(SRC)))
-	$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o $@
+	$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o $@
 	@echo "=================================================================="
 
 # Tests
