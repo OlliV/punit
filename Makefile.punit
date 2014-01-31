@@ -34,6 +34,7 @@
 # Dirs ########################################################################
 IDIR += ../punit
 IDIR := $(patsubst %,-I%,$(subst :, ,$(IDIR)))
+IDIR_TEST := $(patsubst %,-I%,$(subst :, ,$(IDIR_TEST)))
 
 ODIR = obj
 BDIR = bin
@@ -120,7 +121,7 @@ bin/%: %.c $(PU_OBJ)
 	@echo "Build test: $(TESTNAME)"
 	@echo "=================================================================="
 	$(eval DEPS := $(patsubst %,./$(ODIR)/%,$(notdir $(SRC-$(TESTNAME):.c=.o))))
-	$(CC) $(CCFLAGS) $(IDIR) $^ $(DEPS) -o ./$@
+	$(CC) $(CCFLAGS) $(IDIR) $(IDIR_TEST) $^ $(DEPS) -o ./$@
 	@echo "=================================================================="
 
 # Run tests
