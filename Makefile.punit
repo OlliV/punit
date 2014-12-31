@@ -106,9 +106,10 @@ $(TEST_EXECUTABLES): $(PU-OBJ) $(OBJ)
 	@echo "LD $@"
 	$(ARMGNU)-ld -o $@ -T $(ROOT_DIR)/$(ELFLD) $(LDFLAGS) $(ROOT_DIR)/lib/crt1.a $(LDIR) $@.o $(CUR_OBJS) -lc
 
-.PHONY: clean
-
 manifest: $(TEST_EXECUTABLES)
 	echo "$(TEST_EXECUTABLES)" > manifest
 
 clean:
+	$(RM) $(TEST_EXECUTABLES)
+
+.PHONY: clean
