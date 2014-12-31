@@ -2,8 +2,8 @@
 # PUnit, a portable unit testing framework for C.
 # Inspired by: http://www.jera.com/techinfo/jtns/jtn002.html
 #
-# Copyright (c) 2013, Olli Vanhoja <olli.vanhoja@cs.helsinki.fi>
-# Copyright (c) 2012, Ninjaware Oy, Olli Vanhoja <olli.vanhoja@ninjaware.fi>
+# Copyright (c) 2013, 2014 Olli Vanhoja <olli.vanhoja@cs.helsinki.fi>
+# Copyright (c) 2012 Ninjaware Oy, Olli Vanhoja <olli.vanhoja@ninjaware.fi>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -35,20 +35,17 @@
 IDIR += ../punit
 IDIR := $(patsubst %,-I%,$(subst :, ,$(IDIR)))
 IDIR_TEST := $(patsubst %,-I%,$(subst :, ,$(IDIR_TEST)))
-
-ODIR = obj
-BDIR = bin
 ###############################################################################
 
 # PUnit #######################################################################
 # Sources
-PU_SRC += ../punit/punit.c
+PU-SRC += ../punit/punit.c
 ifeq ($(PU_UU),1)
-	PU_SRC += ../punit/unixunit.c
+	PU-SRC += ../punit/unixunit.c
 endif
 
 # Objs
-PU_OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(PU_SRC:.c=.o)))
+PU-OBJ = $(PU-SRC:.c=.o)
 ###############################################################################
 
 # Tests #######################################################################
@@ -70,71 +67,48 @@ endif
 space = $(empty) $(empty)
 
 # List of existing test
-TEST_LIST = $(filter-out test,$(subst _,$(space),$(basename $(notdir $(TEST_SRC)))))
-SRC = $(sort $(foreach name,$(TEST_LIST),$(SRC-$(name))))
-OBJ = $(patsubst %,./$(ODIR)/%,$(notdir $(SRC:.c=.o)))
+TEST_LIST = $(filter-out test,$(subst _,$(space),$(basename $(notdir $(TEST-SRC)))))
+SRC = $(sort $(foreach name,$(TEST_LIST),$($(name)-SRC))) $(TEST-SRC)
+OBJ = $(SRC:.c=.o)
 
-TEST_EXECUTABLES = $(TEST_SRC:%.c=$(BDIR)/%)
+TEST_EXECUTABLES = $(TEST-SRC:%.c=%)
 
-# Set test set name if ont set yet
+# Set test set name if not set yet
 TSETNAME ?= ${shell pwd | sed 's|.*/||'}
 
-# TEST_SRC test sources
+# TEST-SRC test sources
 # SRC = MUT source modules
 
 #### Targets ##################################################################
-all: punit $(PU_OBJ) $(OBJ) $(TEST_EXECUTABLES) run
-	@echo "'make all' done"
+all: $(PU-OBJ) $(OBJ) $(TEST_EXECUTABLES) manifest
 
-help:
-	@echo Targets
-	@echo =======
-	@echo "all      Compile all binaries and run tests"
-	@echo "prepare  Create needed files and directories"
-	@echo "compile  Compile unit test framework and tests"
-	@echo "punit    Compile unit test framework"
+$(PU-OBJ): $(PU-SRC)
+	$(eval CUR_SRC := $(@:.o=.c))
+	$(eval CUR_BC := $*.bc)
+	$(eval CUR_S := $*.s)
+	$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o $(CUR_BC)
+	$(LLC) $(LLCFLAGS) $(CUR_BC) -o $(CUR_S)
+	$(ARMGNU)-as $(CUR_S) -o $@ $(ASFLAGS)
 
-prepare:
-	mkdir -p $(ODIR)
-	mkdir -p $(BDIR)
-
-punit: $(PU_OBJ)
-	@echo "Build unit test framework"
-	@echo "=================================================================="
-
-$(PU_OBJ): $(PU_SRC)
-	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
-	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(PU_SRC)))
-	$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o ./$@
-
-# MUTs
 $(OBJ): $(SRC)
 	@echo "Build MUT: $@"
-	@echo "=================================================================="
-	$(eval CUR_SRC := $(notdir $(@:.o=.c)))
-	$(eval CUR_SRC := $(filter $(foreach file,$(CUR_SRC), %/$(file)), $(SRC)))
-	$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o $@
-	@echo "=================================================================="
+	$(eval CUR_SRC := $(@:.o=.c))
+	$(eval CUR_BC := $*.bc)
+	$(eval CUR_S := $*.s)
+	$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o $(CUR_BC)
+	$(LLC) $(LLCFLAGS) $(CUR_BC) -o $(CUR_S)
+	$(ARMGNU)-as $(CUR_S) -o $@ $(ASFLAGS)
 
 # Tests
-bin/%: %.c $(PU_OBJ)
+$(TEST_EXECUTABLES): $(PU-OBJ) $(OBJ)
 	$(eval TESTNAME := $(filter-out test,$(subst _,$(space),$(basename $(notdir $@)))))
-	@echo "Build test: $(TESTNAME)"
-	@echo "=================================================================="
-	$(eval DEPS := $(patsubst %,./$(ODIR)/%,$(notdir $(SRC-$(TESTNAME):.c=.o))))
-	$(CC) $(CCFLAGS) $(IDIR) $(IDIR_TEST) $^ $(DEPS) -o ./$@
-	@echo "=================================================================="
+	$(eval CUR_OBJS := $(patsubst %.c, %.o, $($(TESTNAME)-SRC)) $(PU-OBJ))
+	@echo "LD $@"
+	$(ARMGNU)-ld -o $@ -T $(ROOT_DIR)/$(ELFLD) $(LDFLAGS) $(ROOT_DIR)/lib/crt1.a $(LDIR) $@.o $(CUR_OBJS) -lc
 
-# Compile tests
-compile: prepare $(TEST_EXECUTABLES)
+.PHONY: clean
 
-# Run tests
-run: compile
-	@echo "Run all tests: $(TSETNAME)"
-	@echo "=================================================================="
-	@$(foreach exe,$^,echo "$(exe):"; $(exe); )
-
-.PHONY: prepare punit compile clean
+manifest: $(TEST_EXECUTABLES)
+	echo "$(TEST_EXECUTABLES)" > manifest
 
 clean:
-	rm -f ./$(ODIR)/*.o ./$(ODIR)/*.d ./$(TEST_EXECUTABLES)
