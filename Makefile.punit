@@ -90,14 +90,15 @@ help:
 	@echo Targets
 	@echo =======
 	@echo "all      Compile all binaries and run tests"
-	@echo "install  Create needed files and directories"
+	@echo "prepare  Create needed files and directories"
+	@echo "compile  Compile unit test framework and tests"
 	@echo "punit    Compile unit test framework"
 
-install:
-	mkdir $(ODIR)
-	mkdir $(BDIR)
+prepare:
+	mkdir -p $(ODIR)
+	mkdir -p $(BDIR)
 
-punit: $(PU_SRC)
+punit: $(PU_OBJ)
 	@echo "Build unit test framework"
 	@echo "=================================================================="
 
@@ -124,13 +125,16 @@ bin/%: %.c $(PU_OBJ)
 	$(CC) $(CCFLAGS) $(IDIR) $(IDIR_TEST) $^ $(DEPS) -o ./$@
 	@echo "=================================================================="
 
+# Compile tests
+compile: prepare $(TEST_EXECUTABLES)
+
 # Run tests
-run: $(TEST_EXECUTABLES)
+run: compile
 	@echo "Run all tests: $(TSETNAME)"
 	@echo "=================================================================="
 	@$(foreach exe,$^,echo "$(exe):"; $(exe); )
 
-.PHONY: clean
+.PHONY: prepare punit compile clean
 
 clean:
 	rm -f ./$(ODIR)/*.o ./$(ODIR)/*.d ./$(TEST_EXECUTABLES)
