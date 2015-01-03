@@ -6,6 +6,10 @@
 *.pbd
 *.browse
 *.cout
+*.bc
+*.s
+
+*.d
 
 # Compiled Dynamic libraries
 *.so
@@ -19,27 +23,6 @@
 # Libraries
 *.lib
 *.a
-
-# Shared objects (inc. Windows DLLs)
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.out
-
-# List files
-*.lst
-*.map
-
-# Simulation files
-*.sim
-
-# Binary dependecy map files
-*.dep
-
-# Windows cache and temp files
-Thumbs.db
 
 # Ignore punit bins and objs
 */bin/
