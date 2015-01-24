@@ -2,7 +2,7 @@
 # PUnit, a portable unit testing framework for C.
 # Inspired by: http://www.jera.com/techinfo/jtns/jtn002.html
 #
-# Copyright (c) 2013, 2014 Olli Vanhoja <olli.vanhoja@cs.helsinki.fi>
+# Copyright (c) 2013 - 2015 Olli Vanhoja <olli.vanhoja@cs.helsinki.fi>
 # Copyright (c) 2012 Ninjaware Oy, Olli Vanhoja <olli.vanhoja@ninjaware.fi>
 # All rights reserved.
 #
@@ -53,7 +53,7 @@ include $(wildcard *.mk)
 ###############################################################################
 
 CC ?= gcc
-CCFLAGS += -Wall -pedantic -MMD -DPU_TEST_BUILD
+CCFLAGS += -Wall -pedantic -DPU_TEST_BUILD
 # Link math?
 ifeq ($(PU_LMATH),1)
 	CCFLAGS += -lm -DPU_LMATH
@@ -84,20 +84,13 @@ all: $(PU-OBJ) $(OBJ) $(TEST_EXECUTABLES) manifest
 
 $(PU-OBJ): $(PU-SRC)
 	$(eval CUR_SRC := $(@:.o=.c))
-	$(eval CUR_BC := $*.bc)
-	$(eval CUR_S := $*.s)
-	$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o $(CUR_BC)
-	$(LLC) $(LLCFLAGS) $(CUR_BC) -o $(CUR_S)
-	$(ARMGNU)-as $(CUR_S) -o $@ $(ASFLAGS)
+	@echo "CC $@"
+	@$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o /dev/stdout | $(LLC) $(LLCFLAGS) - -o - | $(ARMGNU)-as - -o $@ $(ASFLAGS)
 
 $(OBJ): $(SRC)
-	@echo "Build MUT: $@"
 	$(eval CUR_SRC := $(@:.o=.c))
-	$(eval CUR_BC := $*.bc)
-	$(eval CUR_S := $*.s)
-	$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o $(CUR_BC)
-	$(LLC) $(LLCFLAGS) $(CUR_BC) -o $(CUR_S)
-	$(ARMGNU)-as $(CUR_S) -o $@ $(ASFLAGS)
+	@echo "CC $@"
+	@$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o /dev/stdout | $(LLC) $(LLCFLAGS) - -o - | $(ARMGNU)-as - -o $@ $(ASFLAGS)
 
 # Tests
 $(TEST_EXECUTABLES): $(PU-OBJ) $(OBJ)
