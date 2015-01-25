@@ -83,14 +83,18 @@ TSETNAME ?= ${shell pwd | sed 's|.*/||'}
 all: $(PU-OBJ) $(OBJ) $(TEST_EXECUTABLES) manifest
 
 $(PU-OBJ): $(PU-SRC)
-	$(eval CUR_SRC := $(@:.o=.c))
 	@echo "CC $@"
-	@$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o /dev/stdout | $(LLC) $(LLCFLAGS) - -o - | $(ARMGNU)-as - -o $@ $(ASFLAGS)
+	$(eval CUR_SRC := $(@:.o=.c))
+	$(eval CUR_BC := $*.bc)
+	@$(CC) $(IDIR) $(CCFLAGS) -c $(CUR_SRC) -o $(CUR_BC)
+	@$(LLC) $(LLCFLAGS) $(CUR_BC) -o - | $(ARMGNU)-as - -o $@ $(ASFLAGS)
 
 $(OBJ): $(SRC)
-	$(eval CUR_SRC := $(@:.o=.c))
 	@echo "CC $@"
-	@$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o /dev/stdout | $(LLC) $(LLCFLAGS) - -o - | $(ARMGNU)-as - -o $@ $(ASFLAGS)
+	$(eval CUR_SRC := $(@:.o=.c))
+	$(eval CUR_BC := $*.bc)
+	@$(CC) $(IDIR) $(IDIR_TEST) $(CCFLAGS) -c $(CUR_SRC) -o $(CUR_BC)
+	@$(LLC) $(LLCFLAGS) $(CUR_BC) -o - | $(ARMGNU)-as - -o $@ $(ASFLAGS)
 
 # Tests
 $(TEST_EXECUTABLES): $(PU-OBJ) $(OBJ)
